@@ -59,18 +59,24 @@
       const engine = await loadEngine();
       status('Preparing sacred-sites model…', `3D engine loaded from ${engine.source}. Building the scene now.`);
 
-      const response = await fetch('./app-v5.js?v=7', { cache: 'no-store' });
+      const response = await fetch('./app-v5.js?v=8', { cache: 'no-store' });
       if (!response.ok) throw new Error(`Application file returned HTTP ${response.status}`);
       let code = await response.text();
       code = code
         .replace(/^\s*import\s+\*\s+as\s+THREE\s+from\s+['"][^'"]+['"];?\s*$/m, '')
-        .replace(/^\s*import\s+\{\s*OrbitControls\s*\}\s+from\s+['"][^'"]+['"];?\s*$/m, '');
+        .replace(/^\s*import\s+\{\s*OrbitControls\s*\}\s+from\s+['"][^'"]+['"];?\s*$/m, '')
+        .replace(/\.n\[lang\]/g, ".n[lang==='en'?0:1]")
+        .replace(/\.i\[lang\]/g, ".i[lang==='en'?0:1]")
+        .replace(/\.d\[lang\]/g, ".d[lang==='en'?0:1]")
+        .replace(/\.t\[lang\]/g, ".t[lang==='en'?0:1]")
+        .replace(/\.f\[lang\]/g, ".f[lang==='en'?0:1]");
 
       const run = new Function('THREE', 'OrbitControls', `${code}\n//# sourceURL=app-v5-runtime.js`);
       run(engine.THREE, engine.OrbitControls);
     } catch (error) {
       console.error('3D startup failed:', error);
-      status('3D map could not start', error?.message || String(error), true);
+      const detail = error?.stack ? `${error.message}<br><small style="opacity:.7">${String(error.stack).split('\n').slice(0,3).join('<br>')}</small>` : (error?.message || String(error));
+      status('3D map could not start', detail, true);
     }
   }
 

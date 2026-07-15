@@ -28,11 +28,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install React application dependencies
+      - name: Install React prototype dependencies
         working-directory: original-react-source
         run: npm install --no-audit --no-fund
 
-      - name: Build React application
+      - name: Build React prototype preview
         working-directory: original-react-source
         run: npm run build -- --base=/hajj-umrah-3d-guide/react-app/
 
@@ -43,17 +43,10 @@ jobs:
           rm -rf _site
           mkdir -p _site/react-app
 
-          # Keep the latest accurate V15 static website at the main Pages URL.
-          rsync -a \
-            --exclude='.git/' \
-            --exclude='.github/' \
-            --exclude='_site/' \
-            --exclude='original-react-source/' \
-            --exclude='node_modules/' \
-            --exclude='*.zip' \
-            ./ _site/
+          # The canonical V15 source is deployed to the main Pages URL.
+          rsync -a v15-source/ _site/
 
-          # Publish the complete React/Vite build separately for continuous preview.
+          # The earlier React prototype remains available only as a comparison preview.
           cp -a original-react-source/dist/. _site/react-app/
 
           # Prevent GitHub Pages from applying Jekyll processing.

@@ -6,7 +6,11 @@
   <meta name="theme-color" content="#052f28">
   <meta name="description" content="Interactive coordinate-based 3D Hajj and Umrah learning map in English and Gujarati">
   <title>Hajj & Umrah 3D Journey</title>
-  <link rel="stylesheet" href="./styles.css?v=5">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+  <link rel="stylesheet" href="./styles.css?v=6">
+  <script src="./compat.js?v=1"></script>
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
 </head>
 <body>
@@ -100,9 +104,10 @@
     </aside>
   </main>
 
-  <div class="loading" id="loading"><div class="loader"></div><p>Loading interactive 3D map…</p></div>
+  <div class="loading" id="loading"><div><div class="loader"></div><p>Loading interactive 3D map…</p><small style="display:block;opacity:.7;margin-top:8px">Loading the 3D engine and building the sacred-sites model</small></div></div>
   <div class="toast" id="toast"></div>
+  <noscript><div style="padding:30px;font-family:Arial">JavaScript is required for the interactive 3D map.</div></noscript>
 
-  <script type="module" src="./app-v5.js?v=5"></script>
+  <script type="module" src="./app-v5.js?v=6"></script>
 </body>
 </html>

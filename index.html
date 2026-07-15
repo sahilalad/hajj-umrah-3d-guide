@@ -1,48 +1,108 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#063a31">
-<title>Hajj & Umrah 3D Journey</title>
-<link rel="stylesheet" href="./styles.css">
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#052f28">
+  <meta name="description" content="Interactive coordinate-based 3D Hajj and Umrah learning map in English and Gujarati">
+  <title>Hajj & Umrah 3D Journey</title>
+  <link rel="stylesheet" href="./styles.css?v=4">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"}}</script>
 </head>
 <body>
-<div class="app">
-<header class="top">
-  <div class="brand">Hajj & Umrah 3D<small>Interactive English + ગુજરાતી guide</small></div>
-  <nav class="modebar"><button class="pill on" data-mode="hajj" data-en="Hajj route" data-gu="હજ માર્ગ">Hajj route</button><button class="pill" data-mode="haram" data-en="Masjid al-Haram" data-gu="મસ્જિદુલ હરામ">Masjid al-Haram</button></nav>
-  <div class="spacer"></div>
-  <div class="lang"><button id="en" class="on">EN</button><button id="gu">ગુજ</button></div>
-</header>
-<div class="layout">
-  <section class="stage" id="stage">
-    <div class="loading" id="loading"><div><div class="loader"></div><b>Loading interactive 3D journey…</b></div></div>
-    <div class="hud">
-      <div class="sceneTitle"><b id="sceneName">Makkah and the Sacred Sites</b><span id="sceneHint">Drag to rotate • Scroll to zoom • Click any location</span></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brandMark">◆</span>
+      <div><strong id="appTitle">Hajj & Umrah 3D Journey</strong><small id="appSubtitle">Geographic learning model • English + ગુજરાતી</small></div>
+    </div>
+    <div class="topActions">
+      <div class="segmented" id="modeTabs">
+        <button class="active" data-mode="hajj" id="hajjTab">Sacred Sites Map</button>
+        <button data-mode="haram" id="haramTab">Masjid al-Haram Detail</button>
+      </div>
+      <button class="iconBtn" id="langBtn" aria-label="Switch language">ગુજરાતી</button>
+      <button class="iconBtn" id="resetBtn">↺ <span id="resetText">Reset view</span></button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="sceneShell">
+      <div id="scene"></div>
+      <div class="sceneTop">
+        <div class="sceneBadge"><span class="pulse"></span><b id="accuracyText">Improved coordinate-based layout</b></div>
+        <div class="sceneHint" id="sceneHint">Drag to rotate • Scroll/pinch to zoom • Click a marker or building</div>
+      </div>
+      <div class="north"><b>N</b><span>↑</span></div>
+      <div class="scale"><i></i><span id="scaleLabel">5 km</span></div>
       <div class="legend" id="legend"></div>
-      <div class="mapTools"><button class="roundBtn" id="homeCam" title="Reset camera">⌂</button><button class="roundBtn" id="toggleLabels" title="Toggle labels">Aa</button></div>
-      <div class="journeyCtl" id="journeyCtl"><button id="playRoute">▶ Route</button><input id="routeSlider" type="range" min="0" max="100" value="0" aria-label="Journey progress"></div>
-      <button class="mobilePanelBtn" id="openPanel">Open guide</button>
-    </div>
-  </section>
-  <aside class="panel" id="panel">
-    <button class="closePanel" id="closePanel">×</button>
-    <div class="panelHead"><div class="kicker" id="panelKicker">SELECTED LOCATION</div><h1 id="panelTitle">Masjid al-Haram</h1><div class="distance" id="distance">📍 Starting point</div></div>
-    <div class="panelBody">
-      <p class="intro" id="panelIntro"></p>
-      <div class="progressCard"><div class="progressTop"><span id="progressLabel">Journey progress</span><span id="progressValue">0%</span></div><div class="bar"><i id="progressBar"></i></div></div>
-      <div class="section" id="daySection"><h2>🗓 <span id="dayTitle">Hajj day timeline</span></h2><div class="daystrip" id="daystrip"></div></div>
-      <div class="section"><h2>✓ <span id="tasksTitle">What to do here</span></h2><div class="tasks" id="tasks"></div></div>
-      <div class="section" id="duaSection"><h2>🤲 <span id="duaTitle">Relevant dua / dhikr</span></h2><div class="dua"><div class="arabic" id="arabic"></div><div class="trans" id="trans"></div><div class="meaning" id="meaning"></div></div></div>
-      <div class="section"><h2>🧭 <span id="routeTitle">Route and distance</span></h2><div class="miniRoute" id="miniRoute"></div></div>
-      <div class="actions"><button class="action gold" id="completeBtn">✓ Mark location complete</button><button class="action" id="speakBtn">🔊 Listen</button><button class="action" id="focusBtn">◎ Focus in 3D</button><button class="action" id="notesBtn">✎ Private note</button></div>
-      <div class="section notice" id="notice">Distances are approximate walking/road-route figures for learning. Actual distance depends on your camp, gate, tunnel, transport route and crowd management instructions. Follow official Hajj authorities and your group leader on the ground.</div>
-    </div>
-  </aside>
-</div>
-</div>
-<script type="module" src="./app.js"></script>
+      <div class="sceneTools">
+        <button id="labelsBtn" class="tool active">Aa <span id="labelsText">Labels</span></button>
+        <button id="terrainBtn" class="tool active">◭ <span id="terrainText">Terrain</span></button>
+        <button id="routeBtn" class="tool gold">▶ <span id="routeText">Play journey route</span></button>
+      </div>
+      <div class="routeController" id="routeController">
+        <div class="routeHead"><b id="routeOverviewTitle">Route overview</b><span id="routeTotal"></span></div>
+        <input id="routeSlider" type="range" min="0" max="1000" value="0">
+        <div class="routeSteps" id="routeSteps"></div>
+      </div>
+      <button class="mobilePanelBtn" id="mobilePanelBtn">Open guide</button>
+    </section>
+
+    <aside class="infoPanel" id="infoPanel">
+      <button class="closePanel" id="closePanel">×</button>
+      <div class="photoStage">
+        <img id="photo" alt="Location photograph" loading="eager">
+        <div class="photoShade"></div>
+        <div class="photoDots" id="photoDots"></div>
+        <button class="photoNav prev" id="photoPrev">‹</button>
+        <button class="photoNav next" id="photoNext">›</button>
+        <a id="photoCredit" class="photoCredit" target="_blank" rel="noopener">Photo: Wikimedia Commons</a>
+      </div>
+      <div class="panelContent">
+        <div class="kicker" id="selectedText">SELECTED LOCATION</div>
+        <div class="titleRow"><div><h1 id="placeTitle">Masjid al-Haram</h1><div class="arabicName" id="placeArabic"></div></div><span class="quality" id="qualityBadge">Coordinate-based</span></div>
+        <p class="intro" id="placeIntro"></p>
+
+        <div class="metricGrid">
+          <div class="metric"><small id="dayLabel">Hajj day</small><b id="dayValue"></b></div>
+          <div class="metric"><small id="distanceLabel">Route distance</small><b id="distanceValue"></b></div>
+          <div class="metric wide"><small id="coordinatesLabel">Coordinates</small><b id="coordinatesValue"></b></div>
+        </div>
+
+        <div class="panelButtons">
+          <button class="primary" id="focusBtn">◎ Focus in 3D</button>
+          <button class="secondary" id="listenBtn">🔊 Listen</button>
+          <button class="secondary" id="completeBtn">✓ Mark complete</button>
+        </div>
+
+        <section class="panelSection">
+          <h2 id="tasksTitle">What to do here</h2>
+          <div class="taskList" id="taskList"></div>
+        </section>
+
+        <section class="panelSection">
+          <h2 id="factsTitle">Location facts</h2>
+          <div class="factList" id="factList"></div>
+        </section>
+
+        <section class="panelSection" id="duaSection">
+          <h2 id="duaTitle">Relevant dua / dhikr</h2>
+          <div class="duaCard">
+            <div class="duaArabic" id="duaArabic"></div>
+            <div class="duaTrans" id="duaTrans"></div>
+            <div class="duaMeaning" id="duaMeaning"></div>
+          </div>
+        </section>
+
+        <div class="notice" id="scaleNote"></div>
+        <div class="notice editorial" id="editorialNote"></div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="loading" id="loading"><div class="loader"></div><p>Loading interactive 3D map…</p></div>
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="./app.js?v=4"></script>
 </body>
 </html>

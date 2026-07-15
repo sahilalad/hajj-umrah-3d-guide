@@ -1,4 +1,4 @@
-name: Build and Deploy Hajj and Umrah Guide
+name: Build and Deploy GitHub Pages
 
 on:
   push:
@@ -18,47 +18,34 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install React prototype dependencies
-        working-directory: original-react-source
+      - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Build React prototype preview
-        working-directory: original-react-source
-        run: npm run build -- --base=/hajj-umrah-3d-guide/react-app/
+      - name: Validate source
+        run: npm run check
 
-      - name: Prepare combined static website
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf _site
-          mkdir -p _site/react-app
+      - name: Build static website
+        run: npm run build
 
-          # The canonical V15 source is deployed to the main Pages URL.
-          rsync -a v15-source/ _site/
-
-          # The earlier React prototype remains available only as a comparison preview.
-          cp -a original-react-source/dist/. _site/react-app/
-
-          # Prevent GitHub Pages from applying Jekyll processing.
-          touch _site/.nojekyll
+      - name: Disable Jekyll processing
+        run: touch dist/.nojekyll
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: dist
 
   deploy:
     environment:
@@ -66,7 +53,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

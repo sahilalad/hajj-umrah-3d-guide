@@ -1,25 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#052f28">
-  <meta name="description" content="Interactive coordinate-based 3D Hajj and Umrah learning map in English and Gujarati">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#052f28" />
+  <meta name="description" content="Interactive English and Gujarati 3D Hajj and Umrah sacred-sites guide." />
   <title>Hajj & Umrah 3D Journey</title>
-  <link rel="preconnect" href="https://esm.sh" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://cdn.skypack.dev" crossorigin>
-  <link rel="preconnect" href="https://commons.wikimedia.org" crossorigin>
-  <link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
-  <link rel="preconnect" href="https://images.weserv.nl" crossorigin>
-  <link rel="stylesheet" href="./styles.css?v=15">
-  <script src="./compat.js?v=1"></script>
 </head>
 <body>
   <header class="topbar">
     <div class="brand">
       <span class="brandMark">◆</span>
-      <div><strong id="appTitle">Hajj & Umrah 3D Journey</strong><small id="appSubtitle">Geographic learning model • English + ગુજરાતી</small></div>
+      <div>
+        <strong id="appTitle">Hajj & Umrah 3D Journey</strong>
+        <small id="appSubtitle">Geographic learning model • English + ગુજરાતી</small>
+      </div>
     </div>
     <div class="topActions">
       <div class="segmented" id="modeTabs">
@@ -35,8 +30,8 @@
     <section class="sceneShell">
       <div id="scene"></div>
       <div class="sceneTop">
-        <div class="sceneBadge"><span class="pulse"></span><b id="accuracyText">Improved coordinate-based layout</b></div>
-        <div class="sceneHint" id="sceneHint">Drag to rotate • Scroll/pinch to zoom • Click a marker or building</div>
+        <div class="sceneBadge"><span class="pulse"></span><b id="accuracyText">Coordinate-based sacred-sites layout</b></div>
+        <div class="sceneHint" id="sceneHint">Drag to rotate • Scroll/pinch to zoom • Click a marker or landmark</div>
       </div>
       <div class="north"><b>N</b><span>↑</span></div>
       <div class="scale"><i></i><span id="scaleLabel">5 km</span></div>
@@ -48,25 +43,31 @@
       </div>
       <div class="routeController" id="routeController">
         <div class="routeHead"><b id="routeOverviewTitle">Route overview</b><span id="routeTotal"></span></div>
-        <input id="routeSlider" type="range" min="0" max="1000" value="0">
+        <input id="routeSlider" type="range" min="0" max="1000" value="0" aria-label="Route progress" />
         <div class="routeSteps" id="routeSteps"></div>
       </div>
       <button class="mobilePanelBtn" id="mobilePanelBtn">Open guide</button>
     </section>
 
     <aside class="infoPanel" id="infoPanel">
-      <button class="closePanel" id="closePanel">×</button>
+      <button class="closePanel" id="closePanel" aria-label="Close guide">×</button>
       <div class="photoStage">
-        <img id="photo" alt="Location photograph" loading="eager" decoding="async" referrerpolicy="no-referrer">
+        <img id="photo" alt="Location photograph" loading="eager" decoding="async" referrerpolicy="no-referrer" />
         <div class="photoShade"></div>
         <div class="photoDots" id="photoDots"></div>
-        <button class="photoNav prev" id="photoPrev">‹</button>
-        <button class="photoNav next" id="photoNext">›</button>
+        <button class="photoNav prev" id="photoPrev" aria-label="Previous photograph">‹</button>
+        <button class="photoNav next" id="photoNext" aria-label="Next photograph">›</button>
         <a id="photoCredit" class="photoCredit" target="_blank" rel="noopener noreferrer">Photo: Wikimedia Commons</a>
       </div>
       <div class="panelContent">
         <div class="kicker" id="selectedText">SELECTED LOCATION</div>
-        <div class="titleRow"><div><h1 id="placeTitle">Masjid al-Haram</h1><div class="arabicName" id="placeArabic"></div></div><span class="quality" id="qualityBadge">Coordinate-based</span></div>
+        <div class="titleRow">
+          <div>
+            <h1 id="placeTitle">Masjid al-Haram</h1>
+            <div class="arabicName" id="placeArabic"></div>
+          </div>
+          <span class="quality" id="qualityBadge">Coordinate-based</span>
+        </div>
         <p class="intro" id="placeIntro"></p>
 
         <div class="metricGrid">
@@ -106,11 +107,15 @@
     </aside>
   </main>
 
-  <div class="loading" id="loading"><div><div class="loader"></div><p>Loading guided 3D journey…</p><small style="display:block;opacity:.7;margin-top:8px">Starting the 3D model and resilient location photo gallery</small></div></div>
+  <div class="loading" id="loading">
+    <div>
+      <div class="loader"></div>
+      <p>Loading guided 3D journey…</p>
+      <small>Starting the clean V15 application</small>
+    </div>
+  </div>
   <div class="toast" id="toast"></div>
-  <noscript><div style="padding:30px;font-family:Arial">JavaScript is required for the interactive 3D map.</div></noscript>
-
-  <script src="./photo-resilience.js?v=15"></script>
-  <script src="./app-v14.js?v=14"></script>
+  <noscript><div class="noscript">JavaScript is required for the interactive 3D map.</div></noscript>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

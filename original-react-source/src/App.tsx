@@ -9,4 +9,22 @@ import { JourneyPage } from './pages/JourneyPage';
 import { SourceBookPage } from './pages/SourceBookPage';
 import { ToolsPage } from './pages/ToolsPage';
 
-export default function App(){return <AppProvider><BrowserRouter><Routes><Route element={<Layout/>}><Route path="/" element={<HomePage/>}/><Route path="/journey/:type" element={<JourneyPage/>}/><Route path="/guide" element={<GuidePage/>}/><Route path="/guide/:id" element={<ChapterPage/>}/><Route path="/duas" element={<DuasPage/>}/><Route path="/tools" element={<ToolsPage/>}/><Route path="/source-book" element={<SourceBookPage/>}/></Route></Routes></BrowserRouter></AppProvider>}
+export default function App() {
+  return (
+    <AppProvider>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/journey/:type" element={<JourneyPage />} />
+            <Route path="/guide" element={<GuidePage />} />
+            <Route path="/guide/:id" element={<ChapterPage />} />
+            <Route path="/duas" element={<DuasPage />} />
+            <Route path="/tools" element={<ToolsPage />} />
+            <Route path="/source-book" element={<SourceBookPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AppProvider>
+  );
+}

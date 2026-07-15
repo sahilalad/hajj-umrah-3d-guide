@@ -2,11 +2,12 @@
   "name": "Hajj & Umrah 3D Guide",
   "short_name": "Manasik 3D",
   "description": "Interactive English and Gujarati Hajj and Umrah learning guide.",
-  "start_url": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f6f1e6",
   "theme_color": "#0a3d33",
   "icons": [
-    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
 }

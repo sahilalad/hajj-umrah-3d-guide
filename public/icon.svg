@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Hajj Umrah 3D Guide">
+  <rect width="128" height="128" rx="24" fill="#052f28"/>
+  <rect x="40" y="34" width="48" height="52" rx="4" fill="#101413"/>
+  <rect x="40" y="34" width="48" height="10" fill="#d8b25a"/>
+  <rect x="58" y="52" width="12" height="20" fill="#d8b25a"/>
+  <circle cx="64" cy="102" r="6" fill="#66e0b4"/>
+</svg>

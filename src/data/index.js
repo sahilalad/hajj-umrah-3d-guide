@@ -1,6 +1,8 @@
 import { HAJJ_DATA } from './hajj.js';
 import { HARAM_DATA } from './haram.js';
 export { UI } from './ui.js';
+export { JOURNEYS, JOURNEY_KEYS } from './journeys.js';
+export { BOOK_META, BOOK_SECTIONS } from './book.js';
 
 export const DATA = {
   hajj: HAJJ_DATA,

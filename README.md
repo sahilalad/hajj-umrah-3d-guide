@@ -58,15 +58,20 @@ Every push to `main` runs the Pages workflow. It installs dependencies, validate
 ## Included V15 behavior
 
 - Sacred Sites and detailed Masjid al-Haram 3D views
+- Guided Umrah and Hajj-day wizard with do / don't tips and checklists
 - Corrected Kaaba door-side orientation
 - Hajar al-Aswad, Rukn al-Yamani, Multazam, Hatim/Hijr Ismail, Mizab and Maqam Ibrahim
 - Correctly oriented miniature Haram in the Sacred Sites view
 - Automatic guided route-camera following
 - Manual camera control after pausing or moving the route slider
+- First-person walk mode inside the Haram detail view
 - English and Gujarati interface and location content
+- Arabic-aware dua playback plus location narration
 - Wikimedia image retries, optimized delivery and local illustrated fallbacks
-- Local completion tracking without an account
+- Local completion and checklist tracking without an account
+- Progressive Web App offline caching
 - Responsive desktop and mobile layout
+- Deep links: `?mode=haram&place=blackstone&lang=gu&journey=umrah&step=1`
 
 ## Editorial status
 

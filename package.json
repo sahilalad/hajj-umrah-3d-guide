@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "node --check src/main.js && node --check src/app.js && node --check src/photoGallery.js && node --check src/data/ui.js && node --check src/data/shared.js && node --check src/data/hajj.js && node --check src/data/haram.js && node --check src/data/index.js && node --check src/three/helpers.js && node --check src/three/kaaba.js && node --check src/three/siteModels.js && node --check src/three/scenes.js"
+    "check": "node --check src/main.js && node --check src/app.js && node --check src/audio.js && node --check src/photoGallery.js && node --check src/data/ui.js && node --check src/data/shared.js && node --check src/data/hajj.js && node --check src/data/haram.js && node --check src/data/journeys.js && node --check src/data/index.js && node --check src/three/helpers.js && node --check src/three/kaaba.js && node --check src/three/textures.js && node --check src/three/haramEnvironment.js && node --check src/three/siteModels.js && node --check src/three/scenes.js"
   },
   "dependencies": {
     "three": "0.171.0"

@@ -39,7 +39,9 @@ export function sphere(radius, color, options) {
 }
 
 export function projectCoordinate(latitude, longitude) {
-  const scale = 4.35;
+  // Overview map scale: expands real Makkah–Arafah distances so landmarks
+  // read as separate sites instead of a congested cluster.
+  const scale = 9.5;
   const latitudeOrigin = 21.395;
   const longitudeOrigin = 39.905;
   return new THREE.Vector3(
@@ -88,8 +90,8 @@ export function addLabel(context, text, key, position) {
       depthTest: false,
     }),
   );
-  sprite.position.copy(position).add(new THREE.Vector3(0, context.mode === 'hajj' ? 3.5 : 2.2, 0));
-  sprite.scale.set(context.mode === 'hajj' ? 7.2 : 5.2, context.mode === 'hajj' ? 1.45 : 1.1, 1);
+  sprite.position.copy(position).add(new THREE.Vector3(0, context.mode === 'hajj' ? 3.5 : 3.8, 0));
+  sprite.scale.set(context.mode === 'hajj' ? 7.2 : 6.2, context.mode === 'hajj' ? 1.45 : 1.25, 1);
   sprite.userData.key = key;
   context.root.add(sprite);
   context.labels.push(sprite);

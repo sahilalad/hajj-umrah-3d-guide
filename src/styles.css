@@ -46,12 +46,55 @@ button{cursor:pointer}
 .tool{border:1px solid rgba(255,255,255,.25);background:rgba(5,47,40,.82);color:white;border-radius:10px;padding:9px 11px;font-size:12px;backdrop-filter:blur(8px)}
 .tool.active{outline:1px solid rgba(216,178,90,.75)}
 .tool.gold{background:var(--gold);color:#18342e;font-weight:800}
-.routeController{position:absolute;left:18px;right:18px;bottom:16px;background:rgba(255,253,248,.93);backdrop-filter:blur(12px);border:1px solid rgba(5,47,40,.14);border-radius:16px;padding:13px 14px;box-shadow:0 10px 36px rgba(0,0,0,.18);z-index:3}
+.routeController{position:absolute;left:18px;right:18px;bottom:16px;background:rgba(255,253,248,.93);backdrop-filter:blur(12px);border:1px solid rgba(5,47,40,.14);border-radius:16px;padding:13px 14px;box-shadow:0 10px 36px rgba(0,0,0,.18);z-index:3;transition:opacity .2s}
+.routeController.dimmed{opacity:.35;pointer-events:none}
 .routeHead{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--green)}
 .routeController input{width:100%;accent-color:var(--green);margin:9px 0 6px}
 .routeSteps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
 .routeSteps button{border:0;background:#e9eee9;color:#315049;padding:7px 6px;border-radius:8px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .routeSteps button.active{background:var(--green);color:white}
+.guideController{position:absolute;left:18px;right:18px;bottom:16px;background:rgba(255,253,248,.96);backdrop-filter:blur(12px);border:1px solid rgba(5,47,40,.14);border-radius:16px;padding:14px;box-shadow:0 10px 36px rgba(0,0,0,.2);z-index:4}
+.guideHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.guideTabs{display:flex;gap:6px;background:#e9eee9;padding:4px;border-radius:10px}
+.guideTabs button{border:0;background:transparent;color:#315049;padding:7px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.guideTabs button.active{background:var(--green);color:#fff}
+#guideProgress{font-size:11px;color:var(--muted);white-space:nowrap}
+.guideBody strong{display:block;font-family:Georgia,serif;font-size:16px;color:var(--green);margin-bottom:4px}
+.guideBody p{margin:0;font-size:12px;line-height:1.5;color:#536660}
+.guideMeta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(5,47,40,.1)}
+.guideMetaBlock{min-width:0}
+.guideMetaLabel{display:block;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.guideMeta ul{margin:0;padding-left:16px;font-size:11px;line-height:1.45;color:#3f554f}
+.guideMeta li{margin-bottom:3px}
+@media (max-width:720px){.guideMeta{grid-template-columns:1fr}}
+.circuitBar{margin-top:12px;padding:10px 12px;border-radius:12px;background:linear-gradient(135deg,#f3f7f4,#fff8e8);border:1px solid rgba(5,47,40,.12)}
+.circuitHead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.circuitHead strong{font-size:12px;color:var(--green)}
+.circuitHead span{font-size:13px;font-weight:800;color:#1f3d36;font-variant-numeric:tabular-nums}
+.circuitTrack{height:8px;border-radius:99px;background:#dfe8e3;overflow:hidden}
+.circuitTrack i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .2s ease}
+.circuitActions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.circuitActions .guideNavBtn{flex:1;min-width:72px;padding:7px 8px}
+.circuitBar.complete{border-color:rgba(77,143,120,.45);box-shadow:0 0 0 1px rgba(77,143,120,.15)}
+.guideNav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.guideNavBtn{border:1px solid #d7d0c2;background:#fff;color:var(--green);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:800}
+.guideNavBtn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.guideNavBtn:disabled{opacity:.4}
+.guideDots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.guideDots button{width:9px;height:9px;border-radius:50%;border:0;background:#cfd8d3;padding:0}
+.guideDots button.active{background:var(--gold);transform:scale(1.25)}
+.walkHud{position:absolute;left:50%;top:16px;transform:translateX(-50%);z-index:5;display:flex;gap:10px;align-items:center;background:rgba(5,47,40,.88);color:#fff;border:1px solid rgba(216,178,90,.45);border-radius:12px;padding:8px 12px;font-size:12px}
+.walkHud button{border:0;border-radius:8px;padding:7px 10px;background:var(--gold);color:#18342e;font-weight:800}
+.iconBtn.active{background:rgba(216,178,90,.28);border-color:rgba(216,178,90,.7)}
+.mistakeList{display:flex;flex-direction:column;gap:8px}
+.mistake{background:#fff4f0;border:1px solid #efd2c8;border-radius:11px;padding:10px 12px;font-size:12px;line-height:1.5;color:#7a3d2d}
+.mistake:before{content:"✕ ";color:#c45a3c;font-weight:800}
+.checkList{display:flex;flex-direction:column;gap:8px}
+.checkItem{display:flex;gap:10px;align-items:flex-start;background:#f4faf6;border:1px solid #d6e5dc;border-radius:11px;padding:10px;font-size:12px;line-height:1.45}
+.checkItem input{margin-top:2px;accent-color:var(--green)}
+.sectionGap{margin-top:18px}
+.duaPlay{margin-top:12px;border:1px solid #d7d0c2;background:#fff;color:var(--green);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:800}
+#walkBtn:disabled{opacity:.4;cursor:not-allowed}
 .infoPanel{height:100%;background:var(--panel);overflow:auto;border-left:1px solid #d4ccbd;position:relative;z-index:20}
 .closePanel{display:none}
 .photoStage{height:260px;position:relative;background:#243b35;overflow:hidden}
@@ -120,10 +163,13 @@ button{cursor:pointer}
   .closePanel{display:grid;place-items:center;position:fixed;right:12px;top:94px;z-index:90;width:36px;height:36px;border:0;border-radius:50%;background:#052f28;color:#fff;font-size:24px}
   .mobilePanelBtn{display:block;position:absolute;right:18px;bottom:114px;z-index:4;border:0;border-radius:10px;padding:9px 11px;background:#fff;color:#052f28;font-weight:800}
   .routeController{left:10px;right:10px;bottom:10px}
+  .guideController{left:10px;right:10px;bottom:10px}
   .sceneTools{bottom:153px;right:10px}
+  .sceneShell.guide-open .sceneTools{bottom:280px}
   .scale{display:none}.legend{left:10px;top:62px;max-width:180px}
   .sceneTop{left:10px;right:10px}.sceneHint{display:none}
   .north{right:10px;top:62px}
+  .walkHud{left:10px;right:10px;transform:none;width:auto;flex-wrap:wrap}
 }
 @media(max-width:540px){
   .topbar{display:block}.topActions{margin-top:8px;justify-content:flex-start}.iconBtn span{display:none}
@@ -135,3 +181,71 @@ button{cursor:pointer}
 .startupError{max-width:620px;padding:28px;text-align:center;color:#fff}
 .startupError h2{margin:0 0 10px}.startupError p{line-height:1.6;opacity:.9;word-break:break-word}
 .startupError button{border:0;border-radius:12px;padding:12px 18px;background:#d9b55d;color:#17362f;font-weight:800}
+
+.pilgrimGate{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:24px;background:
+  radial-gradient(ellipse at 50% 20%,rgba(216,178,90,.22),transparent 55%),
+  linear-gradient(160deg,#031c18 0%,#052f28 45%,#0a4a3c 100%)}
+.pilgrimGate[hidden]{display:none!important}
+.pilgrimGateCard{width:min(560px,100%);color:#fff;text-align:center}
+.pilgrimEyebrow{margin:0 0 10px;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:#d8b25a;font-weight:800}
+.pilgrimGateCard h1{margin:0;font-family:Georgia,"Noto Serif",serif;font-size:clamp(28px,5vw,42px);line-height:1.15;font-weight:500}
+.pilgrimLead{margin:14px auto 0;max-width:42ch;font-size:15px;line-height:1.65;opacity:.82}
+.pilgrimChoices{display:grid;gap:12px;margin-top:28px}
+.pilgrimChoice{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);backdrop-filter:blur(10px);color:#fff;border-radius:16px;padding:18px 16px;text-align:left;transition:.2s}
+.pilgrimChoice:hover{border-color:rgba(216,178,90,.7);background:rgba(216,178,90,.12);transform:translateY(-1px)}
+.pilgrimChoiceLabel{display:block;font-size:18px;font-weight:800;margin-bottom:6px}
+.pilgrimChoice small{display:block;opacity:.72;font-size:12px;line-height:1.45}
+.pilgrimChoice.umrah .pilgrimChoiceLabel{color:#f0d78a}
+.pilgrimSkip{margin-top:18px;border:0;background:transparent;color:rgba(255,255,255,.7);text-decoration:underline;font-size:13px}
+
+.pilgrimBanner{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:90;width:min(640px,calc(100% - 24px));display:flex;gap:14px;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:16px;background:rgba(5,47,40,.94);color:#fff;border:1px solid rgba(216,178,90,.45);box-shadow:0 16px 40px rgba(0,0,0,.28)}
+.pilgrimBanner[hidden]{display:none!important}
+.pilgrimBannerText{min-width:0}
+.pilgrimBannerText strong{display:block;font-size:14px;margin-bottom:4px}
+.pilgrimBannerText span{display:block;font-size:12px;line-height:1.5;opacity:.82}
+.pilgrimBannerActions{display:flex;gap:8px;flex-shrink:0}
+.pilgrimBannerActions button{border:0;border-radius:10px;padding:9px 12px;background:var(--gold);color:#18342e;font-weight:800;font-size:12px}
+.pilgrimBannerActions button.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.25)}
+
+body.pilgrim-mode .legend,
+body.pilgrim-mode .north,
+body.pilgrim-mode .scale,
+body.pilgrim-mode #routeController,
+body.pilgrim-mode #terrainBtn,
+body.pilgrim-mode #labelsBtn{opacity:.2;pointer-events:none}
+body.pilgrim-mode .sceneBadge b{letter-spacing:.02em}
+body.pilgrim-mode #sceneHint{opacity:1}
+
+@media(max-width:820px){
+  .pilgrimBanner{flex-direction:column;align-items:stretch;bottom:12px}
+  .pilgrimBannerActions{width:100%}
+  .pilgrimBannerActions button{flex:1}
+}
+
+.bookOverlay{position:fixed;inset:0;z-index:120;background:rgba(8,24,20,.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px}
+.bookOverlay[hidden]{display:none!important}
+.bookModal{width:min(1100px,100%);height:min(86vh,900px);background:#fffdf8;border-radius:18px;border:1px solid rgba(5,47,40,.16);box-shadow:0 24px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden}
+.bookModalHead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 16px;border-bottom:1px solid #e6dfd2;background:#f7f3ea}
+.bookModalHead strong{display:block;font-family:Georgia,serif;font-size:18px;color:var(--green)}
+.bookModalHead small{display:block;margin-top:4px;font-size:11px;color:var(--muted);line-height:1.4;max-width:52ch}
+.bookModalBody{flex:1;min-height:0;display:grid;grid-template-columns:minmax(220px,300px) 1fr}
+.bookIndexPane{border-right:1px solid #e6dfd2;display:flex;flex-direction:column;min-height:0;background:#faf7f1}
+#bookSearch{margin:12px;border:1px solid #d7d0c2;border-radius:10px;padding:9px 11px;font-size:13px}
+.bookIndexList{flex:1;overflow:auto;padding:0 8px 12px}
+.bookIndexItem{width:100%;text-align:left;border:0;background:transparent;border-radius:10px;padding:10px 10px;margin-bottom:4px;cursor:pointer}
+.bookIndexItem:hover{background:rgba(5,47,40,.06)}
+.bookIndexItem.active{background:rgba(5,47,40,.1);outline:1px solid rgba(216,178,90,.55)}
+.bookIndexItem .idx{display:inline-block;min-width:2.2em;font-size:11px;font-weight:800;color:var(--gold)}
+.bookIndexItem .ttl{display:block;font-size:12px;line-height:1.35;color:#1f3d36;margin-top:2px}
+.bookIndexItem .meta{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.bookIndexItem.has-ocr .meta{color:#3d7a62}
+.bookReaderPane{display:flex;flex-direction:column;min-height:0;min-width:0}
+.bookReaderHead{padding:14px 18px 8px;border-bottom:1px solid #eee7da}
+.bookIndexBadge{display:inline-block;background:var(--green);color:#fff;font-size:11px;font-weight:800;border-radius:999px;padding:3px 9px;margin-bottom:8px}
+.bookReaderHead h2{margin:0;font-family:Georgia,serif;font-size:20px;color:var(--green);line-height:1.3}
+.bookReaderHead p{margin:6px 0 0;font-size:12px;color:var(--muted)}
+.bookOcrText{flex:1;overflow:auto;margin:0;padding:16px 18px 24px;white-space:pre-wrap;word-break:break-word;font-family:"Noto Sans Gujarati","Noto Naskh Arabic",Georgia,serif;font-size:15px;line-height:1.85;color:#243832;background:#fff}
+@media(max-width:820px){
+  .bookModalBody{grid-template-columns:1fr;grid-template-rows:40% 60%}
+  .bookIndexPane{border-right:0;border-bottom:1px solid #e6dfd2}
+}

@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#052f28" />
   <meta name="description" content="Interactive English and Gujarati 3D Hajj and Umrah sacred-sites guide." />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
   <title>Hajj & Umrah 3D Journey</title>
 </head>
 <body>
@@ -21,6 +24,9 @@
         <button class="active" data-mode="hajj" id="hajjTab">Sacred Sites Map</button>
         <button data-mode="haram" id="haramTab">Masjid al-Haram Detail</button>
       </div>
+      <button class="iconBtn" id="povBtn"><span id="povBtnText">First visit</span></button>
+      <button class="iconBtn" id="guideBtn" aria-pressed="false"><span id="guideBtnText">Guided journey</span></button>
+      <button class="iconBtn" id="bookBtn"><span id="bookBtnText">Book sections</span></button>
       <button class="iconBtn" id="langBtn" aria-label="Switch language">ગુજરાતી</button>
       <button class="iconBtn" id="resetBtn">↺ <span id="resetText">Reset view</span></button>
     </div>
@@ -39,12 +45,57 @@
       <div class="sceneTools">
         <button id="labelsBtn" class="tool active">Aa <span id="labelsText">Labels</span></button>
         <button id="terrainBtn" class="tool active">◭ <span id="terrainText">Terrain</span></button>
+        <button id="walkBtn" class="tool">🚶 <span id="walkText">Walk mode</span></button>
         <button id="routeBtn" class="tool gold">▶ <span id="routeText">Play journey route</span></button>
       </div>
       <div class="routeController" id="routeController">
         <div class="routeHead"><b id="routeOverviewTitle">Route overview</b><span id="routeTotal"></span></div>
         <input id="routeSlider" type="range" min="0" max="1000" value="0" aria-label="Route progress" />
         <div class="routeSteps" id="routeSteps"></div>
+      </div>
+      <div class="guideController" id="guideController" hidden>
+        <div class="guideHead">
+          <div class="guideTabs" id="guideTabs">
+            <button type="button" data-journey="umrah" class="active" id="guideUmrahTab">Umrah steps</button>
+            <button type="button" data-journey="hajj" id="guideHajjTab">Hajj days</button>
+          </div>
+          <span id="guideProgress"></span>
+        </div>
+        <div class="guideBody">
+          <strong id="guideStepTitle"></strong>
+          <p id="guideStepBody"></p>
+          <div class="guideMeta" id="guideMeta" hidden>
+            <div class="guideMetaBlock">
+              <span class="guideMetaLabel" id="guideWhenLabel">When</span>
+              <ul id="guideWhenList"></ul>
+            </div>
+            <div class="guideMetaBlock">
+              <span class="guideMetaLabel" id="guideWhereLabel">Where</span>
+              <ul id="guideWhereList"></ul>
+            </div>
+          </div>
+          <div class="circuitBar" id="circuitBar" hidden>
+            <div class="circuitHead">
+              <strong id="circuitLabel">Circuits</strong>
+              <span id="circuitCount">0 / 7</span>
+            </div>
+            <div class="circuitTrack" aria-hidden="true"><i id="circuitFill"></i></div>
+            <div class="circuitActions">
+              <button type="button" id="circuitMinus" class="guideNavBtn">−1</button>
+              <button type="button" id="circuitPlus" class="guideNavBtn primary">+1 circuit</button>
+              <button type="button" id="circuitReset" class="guideNavBtn">Reset</button>
+            </div>
+          </div>
+        </div>
+        <div class="guideNav">
+          <button type="button" id="guidePrev" class="guideNavBtn">Previous</button>
+          <div class="guideDots" id="guideDots"></div>
+          <button type="button" id="guideNext" class="guideNavBtn primary">Next</button>
+        </div>
+      </div>
+      <div class="walkHud" id="walkHud" hidden>
+        <span id="walkHintText">WASD / arrows move • drag look • Esc exits walk</span>
+        <button type="button" id="walkExitBtn">Exit walk</button>
       </div>
       <button class="mobilePanelBtn" id="mobilePanelBtn">Open guide</button>
     </section>
@@ -82,6 +133,19 @@
           <button class="secondary" id="completeBtn">✓ Mark complete</button>
         </div>
 
+        <section class="panelSection" id="guidePanelSection" hidden>
+          <h2 id="whenTitle">When</h2>
+          <div class="taskList" id="whenList"></div>
+          <h2 id="whereTitle" class="sectionGap">Where</h2>
+          <div class="taskList" id="whereList"></div>
+          <h2 id="doTitle" class="sectionGap">Do</h2>
+          <div class="taskList" id="doList"></div>
+          <h2 id="dontTitle" class="sectionGap">Common mistakes to avoid</h2>
+          <div class="mistakeList" id="dontList"></div>
+          <h2 id="checklistTitle" class="sectionGap">Checklist</h2>
+          <div class="checkList" id="checkList"></div>
+        </section>
+
         <section class="panelSection">
           <h2 id="tasksTitle">What to do here</h2>
           <div class="taskList" id="taskList"></div>
@@ -98,6 +162,7 @@
             <div class="duaArabic" id="duaArabic"></div>
             <div class="duaTrans" id="duaTrans"></div>
             <div class="duaMeaning" id="duaMeaning"></div>
+            <button type="button" class="duaPlay" id="duaPlayBtn">▶ Play dua</button>
           </div>
         </section>
 
@@ -114,6 +179,63 @@
       <small>Starting the clean V15 application</small>
     </div>
   </div>
+
+  <div class="pilgrimGate" id="pilgrimGate" hidden>
+    <div class="pilgrimGateCard">
+      <p class="pilgrimEyebrow" id="pilgrimEyebrow">Your first visit</p>
+      <h1 id="pilgrimTitle">Stand where the pilgrim stands</h1>
+      <p class="pilgrimLead" id="pilgrimLead">Experience Hajj and Umrah in first-person — as if you are arriving at the sacred places for the first time.</p>
+      <div class="pilgrimChoices">
+        <button type="button" class="pilgrimChoice umrah" id="startUmrahPov">
+          <span class="pilgrimChoiceLabel" id="startUmrahLabel">Begin Umrah</span>
+          <small id="startUmrahHint">Enter Masjid al-Haram • face the Kaaba • follow each step</small>
+        </button>
+        <button type="button" class="pilgrimChoice hajj" id="startHajjPov">
+          <span class="pilgrimChoiceLabel" id="startHajjLabel">Begin Hajj</span>
+          <small id="startHajjHint">Day-by-day journey • Mina to Arafah • pilgrim point of view</small>
+        </button>
+      </div>
+      <button type="button" class="pilgrimSkip" id="exploreMapBtn">Explore the map freely</button>
+    </div>
+  </div>
+
+  <div class="pilgrimBanner" id="pilgrimBanner" hidden>
+    <div class="pilgrimBannerText">
+      <strong id="pilgrimBannerTitle">You have entered Masjid al-Haram</strong>
+      <span id="pilgrimBannerBody">Walk forward. The Kaaba is ahead. Take a moment — this is how it feels to arrive.</span>
+    </div>
+    <div class="pilgrimBannerActions">
+      <button type="button" id="pilgrimContinueBtn">Continue</button>
+      <button type="button" class="ghost" id="exitPilgrimBtn">Exit POV</button>
+    </div>
+  </div>
+
+  <div class="bookOverlay" id="bookOverlay" hidden>
+    <div class="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+      <header class="bookModalHead">
+        <div>
+          <strong id="bookModalTitle">Hajj ane Umrah na Masail</strong>
+          <small id="bookModalNote">OCR may contain recognition errors — verify against the printed book.</small>
+        </div>
+        <button type="button" class="iconBtn" id="bookCloseBtn">Close</button>
+      </header>
+      <div class="bookModalBody">
+        <aside class="bookIndexPane">
+          <input type="search" id="bookSearch" placeholder="Search sections…" autocomplete="off" />
+          <div class="bookIndexList" id="bookIndexList"></div>
+        </aside>
+        <article class="bookReaderPane">
+          <div class="bookReaderHead">
+            <span class="bookIndexBadge" id="bookSectionIndex"></span>
+            <h2 id="bookSectionTitle"></h2>
+            <p id="bookSectionMeta"></p>
+          </div>
+          <pre class="bookOcrText" id="bookOcrText"></pre>
+        </article>
+      </div>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
   <noscript><div class="noscript">JavaScript is required for the interactive 3D map.</div></noscript>
   <script type="module" src="/src/main.js"></script>
